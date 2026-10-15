@@ -45,6 +45,7 @@ In un repo git ogni comando crea anche il commit e il tag `vX.Y.Z`.
 ```
 assets/                 immagine sorgente dell'icona (alta risoluzione)
 public/                 favicon, apple-touch-icon e logo ottimizzati, serviti così come sono
+scripts/icons.py        rigenera public/ dall'icona sorgente (python scripts/icons.py, richiede Pillow)
 src/
   schemas.ts            tipi + validazione (zod)
   config/defaults.ts    provider predefiniti
