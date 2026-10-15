@@ -3,6 +3,7 @@ import { applyRules } from '../lib/filter';
 import { createClient } from '../lib/openai-client';
 import type { ChatMessage } from '../schemas';
 import { useActiveChat, useChats } from '../store/chats';
+import Markdown from './Markdown';
 import { useSettings } from '../store/settings';
 
 const TITLE_LENGTH = 40;
@@ -62,12 +63,13 @@ export default function ChatPanel() {
         {messages.map((m, i) => (
           <article
             key={i}
-            className={`max-w-[90%] rounded-lg break-words sm:max-w-[85%] px-4 py-2 text-sm whitespace-pre-wrap ${
-              m.role === 'user' ? 'ml-auto bg-indigo-50 text-indigo-950' : 'bg-slate-100'
+            className={`max-w-[90%] rounded-lg px-4 py-2 text-sm break-words sm:max-w-[85%] ${
+              m.role === 'user' ? 'ml-auto w-fit bg-indigo-50 whitespace-pre-wrap text-indigo-950' : 'bg-slate-100'
             }`}
           >
             <p className="mb-1 text-xs text-slate-500">{m.role === 'user' ? 'Inviato al modello' : m.model}</p>
-            {m.content}
+            {/* l'utente vede il testo esatto inviato; le risposte del modello sono markdown */}
+            {m.role === 'user' ? m.content : <Markdown>{m.content}</Markdown>}
           </article>
         ))}
         {pending && <p className="text-sm text-slate-400">In attesa di risposta…</p>}

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* l'app scorre nei propri pannelli: i drawer chiusi fuori schermo non devono allargare la pagina */
 html, body { overflow: hidden; }
