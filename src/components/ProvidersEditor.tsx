@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { createClient } from '../lib/openai-client';
 import { useSettings } from '../store/settings';
 import type { Provider } from '../schemas';
@@ -23,15 +23,19 @@ function ProviderItem({ provider }: { provider: Provider }) {
   const [catalog, setCatalog] = useState<string[]>([]);
   const [draft, setDraft] = useState('');
   const [status, setStatus] = useState('');
-  const listId = useId();
 
+  const query = draft.trim().toLowerCase();
+  const matches = catalog.filter(m => m.toLowerCase().includes(query) && !provider.models.includes(m));
+
+  // alcuni provider (es. OpenRouter) espongono l'elenco senza key: non la richiediamo qui
   async function loadCatalog() {
     setStatus('Caricamento…');
     try {
-      setCatalog(await createClient(provider).listModels());
-      setStatus('');
+      const ids = await createClient(provider).listModels();
+      setCatalog(ids);
+      setStatus(`${ids.length} modelli disponibili: filtra scrivendo nel campo, clic per aggiungere.`);
     } catch (e) {
-      setStatus((e as Error).message);
+      setStatus('Errore: ' + (e as Error).message);
     }
   }
 
@@ -81,22 +85,31 @@ function ProviderItem({ provider }: { provider: Provider }) {
         <form className="flex gap-2" onSubmit={e => { e.preventDefault(); add(); }}>
           <input
             className="field"
-            list={listId}
-            placeholder="id modello"
+            placeholder={catalog.length ? 'Cerca, es. :free' : 'id modello'}
             aria-label="Aggiungi modello"
             value={draft}
             onChange={e => setDraft(e.target.value)}
           />
-          <datalist id={listId}>
-            {catalog.map(m => <option key={m} value={m} />)}
-          </datalist>
           <button className="btn" type="submit">Aggiungi</button>
         </form>
 
-        <button className="btn-ghost text-indigo-600" disabled={!provider.apiKey} onClick={loadCatalog}>
+        <button className="btn-ghost text-indigo-600" onClick={loadCatalog}>
           Carica elenco modelli disponibili
         </button>
         {status && <p className="text-xs text-slate-500">{status}</p>}
+
+        {catalog.length > 0 && (
+          <ul className="max-h-56 overflow-y-auto rounded-md border border-slate-200 text-xs">
+            {matches.map(m => (
+              <li key={m}>
+                <button className="w-full px-3 py-1.5 text-left hover:bg-indigo-50" onClick={() => addModel(provider.id, m)}>
+                  {m}
+                </button>
+              </li>
+            ))}
+            {!matches.length && <li className="px-3 py-1.5 text-slate-400">Nessun modello corrispondente</li>}
+          </ul>
+        )}
       </div>
     </details>
   );

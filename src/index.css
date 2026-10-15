@@ -10,6 +10,7 @@
       disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-ghost {
-    @apply rounded-md px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800;
+    @apply rounded-md px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800
+      disabled:cursor-not-allowed disabled:opacity-50;
   }
 }
