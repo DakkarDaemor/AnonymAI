@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
+/* l'app scorre nei propri pannelli: i drawer chiusi fuori schermo non devono allargare la pagina */
+html, body { overflow: hidden; }
+
 @layer components {
   .field {
-    @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900
+    /* 16px su mobile: sotto quella soglia iOS fa zoom al focus */
+    @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 sm:text-sm
       placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none;
   }
   .btn {

@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { applyRules } from '../lib/filter';
 import { createClient } from '../lib/openai-client';
 import type { ChatMessage } from '../schemas';
@@ -17,6 +17,9 @@ export default function ChatPanel() {
 
   const provider = providers.find(p => p.id === selected?.providerId);
   const messages = chat?.messages ?? []; // solo testo già filtrato: è ciò che il modello vede
+  const endRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => endRef.current?.scrollIntoView({ block: 'end' }), [chat?.id, messages.length, pending]);
 
   async function send(e?: FormEvent) {
     e?.preventDefault();
@@ -50,13 +53,13 @@ export default function ChatPanel() {
   }
 
   return (
-    <section className="flex min-h-[70vh] flex-col rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
+    <section className="flex min-h-0 min-w-0 flex-col bg-white lg:rounded-lg lg:border lg:border-slate-200 lg:shadow-sm">
+      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3 sm:p-4" aria-live="polite">
         {!messages.length && <p className="text-sm text-slate-400">Nessun messaggio.</p>}
         {messages.map((m, i) => (
           <article
             key={i}
-            className={`max-w-[85%] rounded-lg px-4 py-2 text-sm whitespace-pre-wrap ${
+            className={`max-w-[90%] rounded-lg break-words sm:max-w-[85%] px-4 py-2 text-sm whitespace-pre-wrap ${
               m.role === 'user' ? 'ml-auto bg-indigo-50 text-indigo-950' : 'bg-slate-100'
             }`}
           >
@@ -65,14 +68,15 @@ export default function ChatPanel() {
           </article>
         ))}
         {pending && <p className="text-sm text-slate-400">In attesa di risposta…</p>}
+        <div ref={endRef} />
       </div>
 
-      <form onSubmit={send} className="space-y-2 border-t border-slate-200 p-4">
+      <form onSubmit={send} className="space-y-2 border-t border-slate-200 p-3 sm:p-4">
         {error && <p className="text-sm text-red-600">{error}</p>}
         <textarea
           className="field resize-y"
-          rows={3}
-          placeholder="Scrivi un messaggio… (Ctrl+Invio per inviare)"
+          rows={2}
+          placeholder="Scrivi un messaggio…"
           aria-label="Messaggio"
           value={input}
           onChange={e => setInput(e.target.value)}
