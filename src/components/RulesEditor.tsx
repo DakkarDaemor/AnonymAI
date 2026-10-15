@@ -1,12 +1,26 @@
+import { useEffect, useRef } from 'react';
 import { useSettings } from '../store/settings';
 import Card from './Card';
 
 export default function RulesEditor() {
   const { rules, addRule, updateRule, removeRule } = useSettings();
+  const listRef = useRef<HTMLUListElement>(null);
+  const prevCount = useRef(rules.length);
+
+  // nuova regola aggiunta: portala in vista (la lista scorre) e mettici il cursore
+  useEffect(() => {
+    if (rules.length > prevCount.current) {
+      const last = listRef.current?.lastElementChild;
+      last?.scrollIntoView({ block: 'nearest' });
+      last?.querySelector('input')?.focus();
+    }
+    prevCount.current = rules.length;
+  }, [rules.length]);
 
   return (
     <Card title="Filtri" hint="Sostituiti prima dell'invio, senza distinguere maiuscole/minuscole.">
-      <ul className="space-y-2">
+      {/* altezza di 4 righe (campi da 16px su mobile, 14px da sm), poi scorre; padding per non tagliare l'anello di focus */}
+      <ul ref={listRef} className="max-h-49 space-y-2 overflow-y-auto p-0.5 sm:max-h-45">
         {rules.map(r => (
           <li key={r.id} className="flex items-center gap-2">
             <input
