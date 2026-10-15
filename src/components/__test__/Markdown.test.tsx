@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import Markdown from './Markdown';
+import Markdown from '../Markdown';
 
 const render = (md: string) => renderToStaticMarkup(<Markdown>{md}</Markdown>);
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ChatsFileSchema, ConfigFileSchema, parseBackup, wrap } from './backup';
+import { ChatsFileSchema, ConfigFileSchema, parseBackup, wrap } from '../backup';
 
 const config = { providers: [], rules: [{ id: 'r1', from: 'Mario', to: '[N]' }], selected: null };
 

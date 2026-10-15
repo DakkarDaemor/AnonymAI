@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyRules } from './filter';
+import { applyRules } from '../filter';
 
 const rule = (from: string, to: string) => ({ id: from, from, to });
 

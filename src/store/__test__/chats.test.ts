@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { repairChats } from './chats';
+import { repairChats } from '../chats';
 
 const chat = (messages: unknown[]) => ({ id: 'c1', title: 't', createdAt: 1, messages });
 

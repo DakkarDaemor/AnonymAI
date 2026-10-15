@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { toText } from './content';
+import { toText } from '../content';
 
 describe('toText', () => {
   it('lascia invariate le stringhe', () => {

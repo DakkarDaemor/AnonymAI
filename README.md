@@ -52,6 +52,7 @@ src/
   lib/                  logica pura: filtri, client API, backup
   store/                stato persistente: settings (localStorage), chats (IndexedDB)
   components/           UI React
+  */__test__/           test (vitest), accanto al codice che verificano
 ```
 
 ## Privacy
