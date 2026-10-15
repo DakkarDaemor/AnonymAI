@@ -47,8 +47,18 @@ function ProviderItem({ provider }: { provider: Provider }) {
 
   return (
     <details className="group py-2">
-      <summary className="flex cursor-pointer items-center justify-between text-sm font-medium">
-        {provider.name}
+      <summary className="flex cursor-pointer list-none items-center [&::-webkit-details-marker]:hidden justify-between text-sm font-medium">
+        <span className="flex items-center gap-2">
+          <svg
+            className="size-4 text-slate-400 transition-transform group-open:rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden
+          >
+            <path d="M7.2 4.7a.75.75 0 0 1 1.06 0l4.77 4.77a.75.75 0 0 1 0 1.06L8.26 15.3a.75.75 0 1 1-1.06-1.06L11.44 10 7.2 5.76a.75.75 0 0 1 0-1.06Z" />
+          </svg>
+          {provider.name}
+        </span>
         <span className="text-xs font-normal text-slate-500">
           {provider.apiKey ? `${provider.models.length} modelli` : 'nessuna key'}
         </span>
