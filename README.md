@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/AnonymAI.png" alt="AnonymAI" width="160"></p>
+
 # AnonymAI
 
 Chat con modelli LLM a tier gratuito che **anonimizza i messaggi prima dell'invio**: definisci una lista di filtri `testo → sostituto` (nomi, aziende, indirizzi…) e il modello riceve solo il testo già sostituito.
@@ -41,6 +43,8 @@ In un repo git ogni comando crea anche il commit e il tag `vX.Y.Z`.
 ## Struttura
 
 ```
+assets/                 immagine sorgente dell'icona (alta risoluzione)
+public/                 favicon, apple-touch-icon e logo ottimizzati, serviti così come sono
 src/
   schemas.ts            tipi + validazione (zod)
   config/defaults.ts    provider predefiniti

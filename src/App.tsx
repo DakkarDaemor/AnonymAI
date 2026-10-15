@@ -31,7 +31,8 @@ export default function App() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-2 py-2 sm:px-4 sm:py-3">
           <IconButton path={MENU_ICON} label="Apri elenco chat" onClick={() => setPanel('chats')} />
-          <h1 className="shrink-0 text-lg font-semibold">
+          <h1 className="flex shrink-0 items-center gap-2 text-lg font-semibold">
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" className="size-8" />
             AnonymAI <span className="hidden text-xs font-normal text-slate-400 sm:inline">v{__APP_VERSION__}</span>
           </h1>
           <div className="ml-auto min-w-0">
