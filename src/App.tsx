@@ -6,6 +6,7 @@ import Drawer from './components/Drawer';
 import ModelSelect from './components/ModelSelect';
 import ProvidersEditor from './components/ProvidersEditor';
 import RulesEditor from './components/RulesEditor';
+import Tabs from './components/Tabs';
 
 type Panel = 'chats' | 'settings' | null;
 
@@ -49,8 +50,12 @@ export default function App() {
         <ChatPanel />
         <Drawer side="right" label="Impostazioni" open={panel === 'settings'} onClose={close}>
           <RulesEditor />
-          <ProvidersEditor />
-          <BackupPanel />
+          <Tabs
+            tabs={[
+              { label: 'Provider', content: <ProvidersEditor /> },
+              { label: 'Backup', content: <BackupPanel /> },
+            ]}
+          />
           <p className="text-center text-xs text-slate-400 lg:hidden">v{__APP_VERSION__}</p>
         </Drawer>
       </main>

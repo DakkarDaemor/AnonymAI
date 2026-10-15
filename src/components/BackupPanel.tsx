@@ -2,7 +2,6 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { ChatsFileSchema, ConfigFileSchema, downloadJson, parseBackup, wrap } from '../lib/backup';
 import { useChats } from '../store/chats';
 import { selectConfig, useSettings } from '../store/settings';
-import Card from './Card';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -41,7 +40,8 @@ export default function BackupPanel() {
   }
 
   return (
-    <Card title="Backup" hint="L'export della configurazione contiene le API key: conservalo con cura.">
+    <div>
+      <p className="mb-3 text-xs text-slate-500">L'export della configurazione contiene le API key: conservalo con cura.</p>
       <div className="grid grid-cols-2 gap-2">
         <button className="btn-ghost border border-slate-200" onClick={exportConfig}>Esporta config</button>
         <button className="btn-ghost border border-slate-200" onClick={() => configInput.current?.click()}>Importa config</button>
@@ -51,6 +51,6 @@ export default function BackupPanel() {
       <input ref={configInput} type="file" accept="application/json" hidden onChange={e => onImport(e, 'config')} />
       <input ref={chatsInput} type="file" accept="application/json" hidden onChange={e => onImport(e, 'chats')} />
       {status && <p className="mt-2 text-xs whitespace-pre-wrap text-slate-600">{status}</p>}
-    </Card>
+    </div>
   );
 }

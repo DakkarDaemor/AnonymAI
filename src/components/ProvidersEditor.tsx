@@ -2,19 +2,19 @@ import { useState } from 'react';
 import { createClient } from '../lib/openai-client';
 import { useSettings } from '../store/settings';
 import type { Provider } from '../schemas';
-import Card from './Card';
 
 export default function ProvidersEditor() {
   const providers = useSettings(s => s.providers);
 
   return (
-    <Card title="Provider" hint="API key e modelli restano salvati in questo browser.">
+    <div>
+      <p className="mb-3 text-xs text-slate-500">API key e modelli restano salvati in questo browser.</p>
       <div className="divide-y divide-slate-100">
         {providers.map(p => (
           <ProviderItem key={p.id} provider={p} />
         ))}
       </div>
-    </Card>
+    </div>
   );
 }
 
