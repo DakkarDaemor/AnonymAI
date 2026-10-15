@@ -19,7 +19,10 @@ export default function ChatPanel() {
   const messages = chat?.messages ?? []; // solo testo già filtrato: è ciò che il modello vede
   const endRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => endRef.current?.scrollIntoView({ block: 'end' }), [chat?.id, messages.length, pending]);
+  // corpo con graffe: un effect non deve restituire nulla che non sia una cleanup (scrollIntoView può restituire una Promise)
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ block: 'end' });
+  }, [chat?.id, messages.length, pending]);
 
   async function send(e?: FormEvent) {
     e?.preventDefault();

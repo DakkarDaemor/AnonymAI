@@ -1,4 +1,5 @@
 import type { ChatMessage, Provider } from '../schemas';
+import { toText } from './content';
 
 /** Client minimale per endpoint compatibili OpenAI (OpenRouter, Groq, Gemini, ...). */
 export function createClient({ baseUrl, apiKey }: Pick<Provider, 'baseUrl' | 'apiKey'>) {
@@ -18,11 +19,13 @@ export function createClient({ baseUrl, apiKey }: Pick<Provider, 'baseUrl' | 'ap
       return data.map(m => m.id).sort();
     },
     async chat(model: string, messages: ChatMessage[]): Promise<string> {
-      const body = await request<{ choices: { message: { content: string } }[] }>('/chat/completions', {
+      const body = await request<{ choices?: { message?: { content?: unknown } }[] }>('/chat/completions', {
         method: 'POST',
         body: JSON.stringify({ model, messages: messages.map(({ role, content }) => ({ role, content })) }),
       });
-      return body.choices[0].message.content;
+      const text = toText(body.choices?.[0]?.message?.content);
+      if (!text.trim()) throw new Error('Il modello ha restituito una risposta vuota. Riprova o scegli un altro modello.');
+      return text;
     },
   };
 }
